@@ -127,7 +127,8 @@
         return config.initFunction.call(obj);
       });
     },
-    addPlugins: addPlugins
+    addPlugins: addPlugins,
+    extend: extend
   });
 
   api = {
