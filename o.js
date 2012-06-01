@@ -1,3 +1,12 @@
+/**
+ * odotjs - prototypal oo, simplified.
+ * 
+ * See tests for usage.
+ *
+ * MIT Licensed - http://www.opensource.org/licenses/mit-license.php
+ * Copyright (c) 2012 Eric Elliott
+ */
+
 /*global exports */
 (function (exports) {
   'use strict';
