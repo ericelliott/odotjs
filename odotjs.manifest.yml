@@ -1,0 +1,13 @@
+---
+applications:
+  .:
+    url: odotjs.cloudfoundry.com
+    framework:
+      name: node
+      runtime: node06
+      info:
+        mem: 64M
+        description:  Node.JS Application
+        exec:
+    mem: 64M
+    instances: 1
