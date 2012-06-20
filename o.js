@@ -1,6 +1,6 @@
 /**
  * odotjs - prototypal oo, simplified.
- * 
+ *
  * See tests for usage.
  *
  * MIT Licensed - http://www.opensource.org/licenses/mit-license.php
@@ -16,7 +16,9 @@
       var args = [].slice.call(arguments, 1);
       args.forEach(function(source) {
         for (var prop in source) {
-          if (source[prop] !== void 0) obj[prop] = source[prop];
+          if (source.hasOwnProperty(prop)) {
+            if (source[prop] !== void 0) obj[prop] = source[prop];
+          }
         }
       });
       return obj;
@@ -49,9 +51,9 @@
      * The user can pass in the formal parameters, or a named
      * parameters. Either way, we need to initialize the
      * variables to the expected values.
-     * 
+     *
      * @param {String} optionNames Parameter names.
-     * 
+     *
      * @return {object} New configuration object.
      */
     getConfig = function getConfig(optionNames) {
@@ -76,11 +78,11 @@
    * Create a new, blessed object with public properties,
    * shared properties (on prototype), and support for
    * privacy (via initFunction).
-   * 
+   *
    * @param {object} sharedProperties Prototype
    * @param {object} instanceProperties Instance safe
    * @param {function} initFunction Init and privacy
-   * 
+   *
    * @return {object}
    */
   o = function o(sharedProperties, instanceProperties,
@@ -110,11 +112,11 @@
     /**
      * Returns an object factory that stamps out objects
      * using a specified shared prototype and init.
-     * 
+     *
      * @param {object} sharedProperties Prototype
      * @param {object} defaultProperties Instance safe
      * @param {function} initFunction Init and privacy
-     * 
+     *
      * @return {function} A new object factory.
      */
     factory: function factory(sharedProperties, defaultProperties,
