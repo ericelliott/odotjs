@@ -10,25 +10,35 @@
 (function (exports) {
   'use strict';
   var namespace = 'odotjs',
+
     // Adapted from Underscore.
     extend = function extend(obj) {
       var args = [].slice.call(arguments, 1);
-      args.forEach(function(source) {
-        for (var prop in source) {
-          if (source[prop] !== void 0) obj[prop] = source[prop];
+      args.forEach(function (source) {
+        var prop;
+        for (prop in source) {
+          if (source.hasOwnProperty(prop)) {
+            if (typeof source[prop] !== 'undefined') {
+              obj[prop] = source[prop];
+            }
+          }
         }
       });
       return obj;
     },
+
     plugins = {},
+
     // Add to the global plugin collection.
     addPlugins = function (newPlugins) {
       extend(plugins, newPlugins);
     },
+
     // Add to the current object prototype.
     plugin = function plugin(name, fn) {
       this.fn[name] = fn;
     },
+
     // Pass the global plugins to the object
     // prototype.
     bless = function bless(fn) {
@@ -48,19 +58,19 @@
      * The user can pass in the formal parameters, or a named
      * parameters. Either way, we need to initialize the
      * variables to the expected values.
-     * 
+     *
      * @param {String} optionNames Parameter names.
-     * 
+     *
      * @return {object} New configuration object.
      */
     getConfig = function getConfig(optionNames) {
       var config = {}, // New config object
         // Comma separated string to Array
-        optionNames = optionNames.split(','),
+        names = optionNames.split(','),
         // Turn arguments into array, starting at index 1
         args = [].slice.call(arguments, 1);
 
-      optionNames.forEach(function (optionName, index) {
+      names.forEach(function (optionName, index) {
         // Strip whitespace
         optionName = optionName.trim();
         // Use first argument as params object...
@@ -75,11 +85,11 @@
    * Create a new, blessed object with public properties,
    * shared properties (on prototype), and support for
    * privacy (via initFunction).
-   * 
+   *
    * @param {object} sharedProperties Prototype
    * @param {object} instanceProperties Instance safe
    * @param {function} initFunction Init and privacy
-   * 
+   *
    * @return {object}
    */
   o = function o(sharedProperties, instanceProperties,
@@ -109,11 +119,11 @@
     /**
      * Returns an object factory that stamps out objects
      * using a specified shared prototype and init.
-     * 
+     *
      * @param {object} sharedProperties Prototype
      * @param {object} defaultProperties Instance safe
      * @param {function} initFunction Init and privacy
-     * 
+     *
      * @return {function} A new object factory.
      */
     factory: function factory(sharedProperties, defaultProperties,
@@ -137,7 +147,7 @@
     addPlugins: addPlugins,
     extend: extend,
     getConfig: getConfig
-  }),
+  });
 
   api = o;
 
