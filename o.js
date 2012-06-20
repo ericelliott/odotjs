@@ -1,16 +1,15 @@
 /**
- * odotjs - prototypal oo, simplified.
- * 
- * See tests for usage.
+ * odotjs - Prototypal OO made easy.
  *
- * MIT Licensed - http://www.opensource.org/licenses/mit-license.php
- * Copyright (c) 2012 Eric Elliott
+ * Copyright (c) Eric Elliott 2012
+ * MIT License
+ * http://www.opensource.org/licenses/mit-license.php
  */
 
 /*global exports */
 (function (exports) {
   'use strict';
-  var name = 'odotjs',
+  var namespace = 'odotjs',
     // Adapted from Underscore.
     extend = function extend(obj) {
       var args = [].slice.call(arguments, 1);
@@ -131,21 +130,18 @@
         var defaultProperties = config.defaultProperties || {},
           sharedProperties = config.sharedProperties || {},
           instance = extend(defaultProperties, options),
-          obj = extend(o(sharedProperties, instance,
-            config.initFunction));
+          obj = extend(o(sharedProperties, instance));
         return config.initFunction.call(obj);
       });
     },
     addPlugins: addPlugins,
-    extend: extend
-  });
-
-  api = {
+    extend: extend,
     getConfig: getConfig
-  };
-  api[name] = o;
+  }),
 
-  extend(exports, api);
+  api = o;
+
+  exports[namespace] = api;
 }((typeof exports === 'undefined')
     ? this
     : exports));
