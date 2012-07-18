@@ -27,10 +27,8 @@ if ( !Array.prototype.forEach ) {
       args.forEach(function (source) {
         var prop;
         for (prop in source) {
-          if (source.hasOwnProperty(prop)) {
-            if (typeof source[prop] !== 'undefined') {
-              obj[prop] = source[prop];
-            }
+          if (typeof source[prop] !== 'undefined') {
+            obj[prop] = source[prop];
           }
         }
       });

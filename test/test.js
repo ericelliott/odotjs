@@ -224,3 +224,14 @@
 	});
 
 }(odotjs));
+
+
+(function (o) {
+	var testObj = Object.create({bar: true}),
+		foo = o({}, testObj);
+	test('Inherit from prototypes.', function () {
+		ok(foo.bar,
+			'Should inherit from instance object prototypes');
+	});
+}(odotjs));
+
