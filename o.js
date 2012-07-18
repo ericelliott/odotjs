@@ -43,18 +43,18 @@ if ( !Array.prototype.forEach ) {
     },
 
     // Add to the current object prototype.
-    plugin = function plugin(name, fn) {
-      this.fn[name] = fn;
+    plugin = function plugin(name, prop) {
+      this.proto[name] = prop;
     },
 
     // Pass the global plugins to the object
     // prototype.
-    bless = function bless(fn) {
-      fn.plugin = plugin;
+    bless = function bless(proto) {
+      proto.plugin = plugin;
 
-      extend(fn, plugins);
+      extend(proto, plugins);
 
-      return fn;
+      return proto;
     },
     o,
     api,
@@ -105,17 +105,17 @@ if ( !Array.prototype.forEach ) {
     var optionNames = 'sharedProperties, instanceProperties,'
         + ' initFunction',
       config,
-      fn,
+      proto,
       obj;
 
     config = getConfig(optionNames, sharedProperties,
       instanceProperties, initFunction);
     config.initFunction = config.initFunction || defaultInit;
-    fn = config.sharedProperties;
+    proto = config.sharedProperties;
 
-    bless(fn);
+    bless(proto);
 
-    obj = extend(Object.create(fn), {fn: fn},
+    obj = extend(Object.create(proto), {proto: proto},
       config.instanceProperties);
 
     return config.initFunction.call(obj);
