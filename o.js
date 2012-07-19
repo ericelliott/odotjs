@@ -8,12 +8,14 @@
 
 /*global exports */
 // Shim .forEach()
-if ( !Array.prototype.forEach ) {
-  Array.prototype.forEach = function(fn, scope) {
-    for(var i = 0, len = this.length; i < len; ++i) {
+if (!Array.prototype.forEach) {
+  Array.prototype.forEach = function (fn, scope) {
+    var i,
+      length = this.length;
+    for (i = 0, length; i < length; ++i) {
       fn.call(scope || this, this[i], i, this);
     }
-  }
+  };
 }
 
 (function (exports) {
@@ -26,7 +28,7 @@ if ( !Array.prototype.forEach ) {
       args.forEach(function (source) {
         var prop;
         for (prop in source) {
-            obj[prop] = source[prop];
+          obj[prop] = source[prop];
         }
       });
       return obj;
@@ -40,14 +42,14 @@ if ( !Array.prototype.forEach ) {
     },
 
     // Add to the current object prototype.
-    plugin = function plugin(name, prop) {
+    share = function share(name, prop) {
       this.proto[name] = prop;
     },
 
     // Pass the global plugins to the object
     // prototype.
     bless = function bless(proto) {
-      proto.plugin = plugin;
+      proto.share = share;
 
       extend(proto, plugins);
 
@@ -78,8 +80,9 @@ if ( !Array.prototype.forEach ) {
       names.forEach(function (optionName, index) {
         // Strip whitespace
         optionName = optionName.trim();
+
         // Use first argument as params object...
-        config[optionName] = args[0][optionName]
+        config[optionName] = (args[0] && args[0][optionName])
           || args[index]; // or grab the formal parameter.
       });
 
@@ -108,7 +111,7 @@ if ( !Array.prototype.forEach ) {
     config = getConfig(optionNames, sharedProperties,
       instanceProperties, initFunction);
     config.initFunction = config.initFunction || defaultInit;
-    proto = config.sharedProperties;
+    proto = config.sharedProperties || {};
 
     bless(proto);
 
@@ -132,21 +135,30 @@ if ( !Array.prototype.forEach ) {
      * @return {function} A new object factory.
      */
     factory: function factory(sharedProperties, defaultProperties,
-        initFunction) {
+        instanceInit, factoryInit) {
       var optionNames = 'sharedProperties, defaultProperties,'
-          + ' initFunction',
-        config;
+          + ' instanceInit, factoryInit',
+        config,
+        initObj = o();
 
       config = getConfig(optionNames, sharedProperties,
-        defaultProperties, initFunction);
-      config.initFunction = config.initFunction || defaultInit;
+        defaultProperties, instanceInit, factoryInit);
+      config.instanceInit = config.instanceInit || defaultInit;
+
+      // factoryInit can be used to initialize shared private state.
+      if (typeof config.factoryInit === 'function') {
+        config.factoryInit.call(initObj);
+      }
 
       return bless(function (options) {
         var defaultProperties = config.defaultProperties || {},
-          sharedProperties = config.sharedProperties || {},
+          sharedProperties = extend(config.sharedProperties || {}, initObj),
           instance = extend(defaultProperties, options),
-          obj = extend(o(sharedProperties, instance));
-        return config.initFunction.call(obj);
+          obj = extend(o(sharedProperties, instance)),
+          init = config.instanceInit;
+        return ((typeof init === 'function')
+          ? init.call(obj)
+          : obj);
       });
     },
     addPlugins: addPlugins,
