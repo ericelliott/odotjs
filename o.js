@@ -16,7 +16,6 @@ if ( !Array.prototype.forEach ) {
   }
 }
 
-
 (function (exports) {
   'use strict';
   var namespace = 'odotjs',
@@ -27,9 +26,7 @@ if ( !Array.prototype.forEach ) {
       args.forEach(function (source) {
         var prop;
         for (prop in source) {
-          if (typeof source[prop] !== 'undefined') {
             obj[prop] = source[prop];
-          }
         }
       });
       return obj;
