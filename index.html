@@ -1,0 +1,209 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>Odotjs</title>
+  <meta name="description" content="A prototypal OO library for JavaScript">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">Odotjs</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">A prototypal OO library for JavaScript</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/dilvie/odotjs/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/dilvie/odotjs/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/dilvie/odotjs" class="code">View Odotjs on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h1>odotjs</h1>
+
+<p>A prototypal object library that makes it easy to create objects or factories with a predefined prototype, instance members, and even data privacy and initialization. A flexible alternative to class-based systems that exposes, rather than obscures JavaScript's prototypal nature.</p>
+
+<h2>Status</h2>
+
+<p>odotjs is still very new and the API could change. Make sure that your project's tests still pass when you upgrade to a new version.</p>
+
+<h2>Quick Start</h2>
+
+<p><em>Tip</em> - You can pass odotjs into your Immediately Invoked Function Expression (IIFE) so you can access it with the convenient <code>o</code> shortcut:</p>
+
+<pre><code>(function (o) {
+
+}(odotjs));
+</code></pre>
+
+<p>Most of my work is on applications, so I like to expose it via the application sandbox:</p>
+
+<pre><code>(function (app) {
+  var namespace = 'someModule',
+    moduleApi = app.o({
+      doSomething: function doSomething {}
+    });
+
+  app.register(namespace, moduleApi);
+}(myAppNamespace));
+</code></pre>
+
+<p>According to the seminal book, <a href="http://www.amazon.com/gp/product/0201633612?ie=UTF8&amp;tag=ericleads-20&amp;linkCode=shr&amp;camp=213733&amp;creative=393185&amp;creativeASIN=0201633612&amp;redirect=true">"Design Patterns: Elements of Reusable Object-Oriented Architecture"</a>,
+the two fundamental principles of reusable OO design are: "Program to an interface, not an implementation" and "Favor object composition over class inheritance".</p>
+
+<p>JavaScript's OO features make it easy to follow those fundamental design principles, but it could be easier yet. In order to program to an interface, rather than an implementation, it's important to clearly define exactly what that interface is. The best way to do that is to enforce it via encapsulation. Anything that is not the interface should not be exposed via public properties. Unfortunately, in order to enforce encapsulation in JavaScript, you have to jump through a few hoops which tend to obscure your intentions, rather than make them explicit.</p>
+
+<p>A common pattern is to create an object that has a prototype that can be shared with other objects, some private data shared between all objects that share the prototype, and private data that is only accessible by a single object instance. Here's how you might do a one-off object like that in vanilla JavaScript:</p>
+
+<pre><code>var testProto = (function () {
+    var privateProp = 'private property';
+
+    return {
+      sharedProp: 'shared property',
+      getPrivate: function getPrivate() {
+        return privateProp;
+      }
+    };
+  }()),
+
+  testObj = (function () {
+    var testObj = Object.create(testProto);
+
+    testObj.instanceProp = 'instance property';
+    return testObj;
+  }());
+</code></pre>
+
+<p>You're probably accustomed to using constructor functions to do the same thing. In that case, you'd write very similar methods, with a bunch of extra cruft to guard global variable polution from mutating the wrong <code>this</code>. For more detail on why constructors are harmful in JavaScript, see <a href="https://github.com/dilvie/fluentjs1/blob/master/fluent-javascript.js">example code</a> from my talk, <a href="http://ericleads.com/2012/06/fluent-javascript-part-1-prototypal-oo/">"Fluent JavaScript Part 1: Prototypal OO"</a>.</p>
+
+<p>Either way, the resulting code is not particularly explicit or easy to read. You have to look closely to see that the intended purpose of the function is to encapsulate scope for data privacy.</p>
+
+<p>The same thing can be accomplished in odotjs with the following code:</p>
+
+<pre><code>testObj2 = o({
+  sharedProperties: {
+    sharedProp: 'shared property 2'
+  },
+  instanceProperties: {
+    instanceProp: 'instance property 2'
+  },
+  initFunction: function () {
+    var privateProp = 'private property 2';
+
+    this.share('getPrivate', function getPrivate() {
+      return privateProp;
+    });
+
+    return this;
+  }
+});
+</code></pre>
+
+<p>For much larger objects, you'll see savings in how much code you have to type, but more importantly, your intention is explicitly spelled out. You can pass any prototype in with the <code>sharedProperties</code>, and share the same prototype with any other object. Anything you add to the prototype with the <code>.share()</code> method will be available for all other objects sharing the prototype.</p>
+
+<p>Here are some QUnit tests that demonstrate the properties of the object created with the above code. All tests pass:</p>
+
+<pre><code>ok(testObj2.hasOwnProperty('instanceProp'),
+  'Instance property should be on instance.');
+
+equal(testObj2.instanceProp, 'instance property 2',
+  'Instance property should be "instance property 2".');
+
+ok(!testObj2.hasOwnProperty('sharedProp'),
+  'Shared prop should NOT be on instance.');
+
+equal(testObj2.sharedProp, 'shared property 2',
+  'Shared property should be "shared property 2"');
+
+ok(!testObj2.privateProp,
+  'Private property should be private.');
+
+ok(!testObj2.hasOwnProperty('getPrivate'),
+  '.share() should NOT add methods to instance API.');
+
+equal(testObj2.getPrivate(), 'private property 2',
+  'Private property should be "private property 2".');
+</code></pre>
+
+<p>Similarly, odotjs can create factories:</p>
+
+<p>testFactory = o.factory({
+    sharedProperties: {
+      sharedProp: 'shared property'
+    },
+    defaultProperties: {
+      instanceProp: 'instance property'
+    },
+    factoryInit: function factoryInit() {
+      var privateProp = 'private property',
+        counter = 0;</p>
+
+<pre><code>  this.share('getPrivate', function getPrivate() {
+    return privateProp;
+  });
+
+  // If you set the count method on the instance,
+  // it will get its own counter.
+  this.count = function count(number) {
+    number = number || 0;
+    return (counter += number);
+  };
+
+  return this;
+}
+</code></pre>
+
+<p>});</p>
+
+<p>Create an instance with default values:</p>
+
+<pre><code>var o1 = testFactory();
+</code></pre>
+
+<p>Override some defaults:</p>
+
+<pre><code>var o2 = testFactory({
+  instanceProp: 2,
+  name: 'Danny Dance'
+});
+</code></pre>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/dilvie" class="avatar"><img src="https://secure.gravatar.com/avatar/a42a7350945138024ad1d83df2fe7b9b?s=30&amp;d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png" width="48" height="48"/></a> <a href="https://github.com/dilvie">dilvie</a> maintains <a href="https://github.com/dilvie/odotjs">Odotjs</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br/>theme by <a href="http://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/dilvie/odotjs/tarball/master" class="tar">tar</a><a href="https://github.com/dilvie/odotjs/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
+</html>
