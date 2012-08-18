@@ -1,6 +1,33 @@
 {
   "name": "odotjs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Prototypal OO made easy",
-  "author": "Eric Elliott"
+  "author": {
+    "name": "Eric Elliott",
+    "url": "http://ericleads.com"
+  },  
+  "main": "./o.js",
+  "keywords": [
+    "objects",
+    "prototypal",
+    "object oriented"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dilvie/odotjs.git"
+  },
+  "directories": {
+    "lib": "./lib",
+    "test": "./test"
+  },
+  "devDependencies": {
+    "tap": "~0.2.4"
+  },
+  "scripts": {
+    "test": "tap test/test.js"
+  },
+  "engines": {
+    "node": "~0.8.x",
+    "npm": "~1.1.x"    
+  }
 }
