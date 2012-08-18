@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dilvie/odotjs.git"
+    "url": "git@github.com:dilvie/odotjs.git"
   },
   "directories": {
     "lib": "./lib",
@@ -22,9 +22,6 @@
   },
   "devDependencies": {
     "tap": "~0.2.4"
-  },
-  "scripts": {
-    "test": "tap test/test.js"
   },
   "engines": {
     "node": "~0.8.x",
