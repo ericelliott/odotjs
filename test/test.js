@@ -322,4 +322,10 @@
 				+ ' private state.');
 		});
 
+	test('Utilities', function () {
+      deepEqual(o.mapOptions('a, b, c', 1, 2, 3),
+        {a:1,b:2, c:3},
+        '.mapOptions() should map parameters to names, ' +
+        'and return the resulting named parameters hash.');		
+	});
 }(odotjs));

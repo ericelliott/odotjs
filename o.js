@@ -83,7 +83,7 @@ if (!Object.create) {
      *
      * @return {object} New configuration object.
      */
-    getConfig = function getConfig(optionNames) {
+    mapOptions = function mapOptions(optionNames) {
       var config = {}, // New config object
         // Comma separated string to Array
         names = optionNames.split(','),
@@ -95,8 +95,8 @@ if (!Object.create) {
         optionName = optionName.trim();
 
         // Use first argument as params object...
-        config[optionName] = (args[0] && args[0][optionName])
-          || args[index]; // or grab the formal parameter.
+        config[optionName] = (args[0] && args[0][optionName]) ||
+          args[index]; // or grab the formal parameter.
       });
 
       return config;
@@ -115,13 +115,13 @@ if (!Object.create) {
    */
   o = function o(sharedProperties, instanceProperties,
       initFunction) {
-    var optionNames = 'sharedProperties, instanceProperties,'
-        + ' initFunction',
+    var optionNames = 'sharedProperties, instanceProperties,' +
+        ' initFunction',
       config,
       proto,
       obj;
 
-    config = getConfig(optionNames, sharedProperties,
+    config = mapOptions(optionNames, sharedProperties,
       instanceProperties, initFunction);
     config.initFunction = config.initFunction || defaultInit;
     proto = config.sharedProperties || {};
@@ -149,12 +149,12 @@ if (!Object.create) {
      */
     factory: function factory(sharedProperties, defaultProperties,
         instanceInit, factoryInit) {
-      var optionNames = 'sharedProperties, defaultProperties,'
-          + ' instanceInit, factoryInit',
+      var optionNames = 'sharedProperties, defaultProperties,' +
+          ' instanceInit, factoryInit',
         config,
         initObj = o();
 
-      config = getConfig(optionNames, sharedProperties,
+      config = mapOptions(optionNames, sharedProperties,
         defaultProperties, instanceInit, factoryInit);
       config.instanceInit = config.instanceInit || defaultInit;
 
@@ -169,19 +169,20 @@ if (!Object.create) {
           instance = extend(defaultProperties, options),
           obj = extend(o(sharedProperties, instance)),
           init = config.instanceInit;
-        return ((typeof init === 'function')
-          ? init.call(obj)
+        return ((typeof init === 'function') ?
+          init.call(obj)
           : obj);
       });
     },
     addPlugins: addPlugins,
     extend: extend,
-    getConfig: getConfig
+    mapOptions: mapOptions,
+    getConfig: mapOptions
   });
 
   api = o;
 
   exports[namespace] = api;
-}((typeof exports === 'undefined')
-    ? this
+}((typeof exports === 'undefined') ?
+    this
     : exports));
