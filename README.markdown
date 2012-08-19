@@ -140,14 +140,16 @@ Override some defaults:
     
 ## Utilities
 
-* `o.mapOptions` transforms any function into a polymorphic function which can take either a list of aurgemnts, or a named options hash.
+### `o.mapOptions` 
 
-        function foo(param1, param2, param3) {
-            var options = o.mapOptions('param1, param2, param3', param1, param2, param3);
-            
-            // Log the value of param2, regardless of whether
-            // the function was called with a named parameters
-            // object, or comma separated arguments.
-            console.log(options.param2);
-        }
+Transform any function into a polymorphic function which can take either a list of aurgemnts, or a named options hash.
+
+    function foo(param1, param2, param3) {
+        var options = o.mapOptions('param1, param2, param3', param1, param2, param3);
+        
+        // Log the value of param2, regardless of whether
+        // the function was called with a named parameters
+        // object, or comma separated arguments.
+        console.log(options.param2);
+    }
 
