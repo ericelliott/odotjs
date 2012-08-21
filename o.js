@@ -92,14 +92,11 @@ if(!String.prototype.trim) {
     mapOptions = function mapOptions(optionNames) {
       var config = {}, // New config object
         // Comma separated string to Array
-        names = optionNames.split(','),
+        names = optionNames.split(/\s*\,\s*/),
         // Turn arguments into array, starting at index 1
         args = [].slice.call(arguments, 1);
 
       names.forEach(function (optionName, index) {
-        // Strip whitespace
-        optionName = optionName.trim();
-
         // Use first argument as params object...
         config[optionName] = (args[0] && args[0][optionName]) ||
           args[index]; // or grab the formal parameter.
