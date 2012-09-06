@@ -102,31 +102,31 @@ Here are some QUnit tests that demonstrate the properties of the object created 
 
 Similarly, odotjs can create factories:
 
-  testFactory = o.factory({
-    sharedProperties: {
-      sharedProp: 'shared property'
-    },
-    defaultProperties: {
-      instanceProp: 'instance property'
-    },
-    factoryInit: function factoryInit() {
-      var privateProp = 'private property',
-        counter = 0;
-
-      this.share('getPrivate', function getPrivate() {
-        return privateProp;
+      testFactory = o.factory({
+        sharedProperties: {
+          sharedProp: 'shared property'
+        },
+        defaultProperties: {
+          instanceProp: 'instance property'
+        },
+        factoryInit: function factoryInit() {
+          var privateProp = 'private property',
+            counter = 0;
+    
+          this.share('getPrivate', function getPrivate() {
+            return privateProp;
+          });
+    
+          // If you set the count method on the instance,
+          // it will get its own counter.
+          this.count = function count(number) {
+            number = number || 0;
+            return (counter += number);
+          };
+    
+          return this;
+        }
       });
-
-      // If you set the count method on the instance,
-      // it will get its own counter.
-      this.count = function count(number) {
-        number = number || 0;
-        return (counter += number);
-      };
-
-      return this;
-    }
-  });
 
 Create an instance with default values:
 
