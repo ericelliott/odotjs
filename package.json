@@ -1,6 +1,6 @@
 {
   "name": "odotjs",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Prototypal OO made easy",
   "author": {
     "name": "Eric Elliott",
@@ -20,11 +20,8 @@
     "lib": "./lib",
     "test": "./test"
   },
-  "devDependencies": {
-    "tap": "~0.2.4"
-  },
   "engines": {
-    "node": "~0.8.x",
-    "npm": "~1.1.x"    
+    "node": "*",
+    "npm": "*"    
   }
 }
