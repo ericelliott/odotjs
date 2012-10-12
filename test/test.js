@@ -1,5 +1,6 @@
-// Test
+/*global module, test, ok, equal, odotjs, deepEqual */
 (function (o) {
+	'use strict';
 	var testObj,
 		testObj2,
 		testFactory,
@@ -222,10 +223,31 @@
 			'o1.count() should be unchanged.');
 	});
 
+	test('.factory() target option', function() {
+
+		var props = {
+				attrs: {
+					foo: true
+				}
+			},
+			factory = o.factory({
+				defaultProperties: props,
+				target: props.attrs
+			}),
+			instance = factory({ bar: true });
+
+		ok(instance.attrs.bar,
+			'Sometimes you don\'t want to extend the instance object' +
+			'with the object passed into the instance factory. The ' +
+			'target option should let you set a custom target for the ' +
+			'extend operation.');
+	});
+
 }(odotjs));
 
 
 (function (o) {
+	'use strict';
 	var testObj = Object.create({bar: true}),
 		foo = o({}, testObj);
 	test('Inherit from prototypes.', function () {
@@ -235,6 +257,7 @@
 }(odotjs));
 
 (function (o) {
+	'use strict';
 	var proto = {},
 		a = o(proto, {},
 			function init() {
@@ -268,16 +291,17 @@
 			});
 	test('Private state and shared private state.', function () {
 		equal(a.getCount(), b.getCount(),
-			'Different instances should be able to share private'
-			+ ' data.');
+			'Different instances should be able to share private' +
+			' data.');
 
 		ok(a.getSecret() !== b.getSecret(),
-			'Each instance should have access to its own'
-			+ ' private state.');
+			'Each instance should have access to its own' +
+			' private state.');
 	});
 }(odotjs));
 
 (function (o) {
+	'use strict';
 	var factory = o.factory({}, {},
 			function instanceInit() {
 				var secret;
@@ -307,19 +331,19 @@
 				});
 
 				return this;
-			});
-		a = factory().setSecret('a'),
-		b = factory().setSecret('b');
+			}),
+			a = factory().setSecret('a'),
+			b = factory().setSecret('b');
 
 	test('Private state and shared private state w/factory.',
 		function () {
 			equal(a.getCount(), b.getCount(),
-				'Different instances should be able to share private'
-				+ ' data.');
+				'Different instances should be able to share private' +
+				' data.');
 
 			ok(a.getSecret() !== b.getSecret(),
-				'Each instance should have access to its own'
-				+ ' private state.');
+				'Each instance should have access to its own' +
+				' private state.');
 		});
 
 	test('Utilities', function () {

@@ -1,4 +1,4 @@
-odotjs
+odotjs [![Build Status](https://secure.travis-ci.org/dilvie/odotjs.png)](http://travis-ci.org/dilvie/odotjs)
 ======
 
 A prototypal object library that makes it easy to create objects or factories with a predefined prototype, instance members, and even data privacy and initialization. A flexible alternative to class-based systems that exposes, rather than obscures JavaScript's prototypal nature.
@@ -6,7 +6,7 @@ A prototypal object library that makes it easy to create objects or factories wi
 
 ## Status
 odotjs is still very new and the API could change. Make sure that your project's tests still pass when you upgrade to a new version.
-[![Build Status](https://secure.travis-ci.org/dilvie/odotjs.png)](http://travis-ci.org/dilvie/odotjs)
+
 
 ## Quick Start
 *Tip* - You can pass odotjs into your Immediately Invoked Function Expression (IIFE) so you can access it with the convenient `o` shortcut:

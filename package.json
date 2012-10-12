@@ -1,12 +1,12 @@
 {
   "name": "odotjs",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Prototypal OO made easy",
   "author": {
     "name": "Eric Elliott",
     "url": "http://ericleads.com"
   },  
-  "main": "./o.js",
+  "main": "dist/o.js",
   "keywords": [
     "objects",
     "prototypal",
@@ -19,6 +19,13 @@
   "directories": {
     "lib": "./lib",
     "test": "./test"
+  },
+  "scripts": {
+    "postinstall": "grunt",
+    "test": "grunt"
+  },
+  "dependencies": {
+    "grunt": "~0.3.x"
   },
   "engines": {
     "node": "*",
