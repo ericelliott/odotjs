@@ -20,12 +20,12 @@
     "lib": "./lib",
     "test": "./test"
   },
+  "dependencies": {
+    "grunt": "~0.3.x"
+  },
   "scripts": {
     "postinstall": "grunt",
     "test": "grunt"
-  },
-  "dependencies": {
-    "grunt": "~0.3.x"
   },
   "engines": {
     "node": "*",
