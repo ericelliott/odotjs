@@ -1,6 +1,6 @@
 {
   "name": "odotjs",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "Prototypal OO made easy",
   "author": {
     "name": "Eric Elliott",
@@ -24,7 +24,6 @@
     "grunt": "~0.3.x"
   },
   "scripts": {
-    "postinstall": "grunt",
     "test": "grunt qunit"
   },
   "engines": {
