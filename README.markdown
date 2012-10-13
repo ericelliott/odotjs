@@ -152,7 +152,7 @@ Sometimes you don't want to add the instance factory options to the created obje
 
     equal(instance.foo, 'bar',
       'The o.factory({ ignoreOptions: true}) setting should allow ' +
-      'the instance factory to skip adding options to the created' +
+      'the instance factory to skip adding options to the created ' +
       'object.');
 
 ## Utilities
