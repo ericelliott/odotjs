@@ -138,7 +138,23 @@ Override some defaults:
       instanceProp: 2,
       name: 'Danny Dance'
     });
-    
+
+
+### ignoreOptions
+
+Sometimes you don't want to add the instance factory options to the created object. No problem:
+
+    var factory = o.factory({
+        defaultProperties: { foo: 'bar' },
+        ignoreOptions: true
+      }),
+      instance = factory({ foo: 'baz' });
+
+    equal(instance.foo, 'bar',
+      'The o.factory({ ignoreOptions: true}) setting should allow ' +
+      'the instance factory to skip adding options to the created' +
+      'object.');
+
 ## Utilities
 
 ### `o.mapOptions` 

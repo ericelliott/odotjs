@@ -223,24 +223,18 @@
 			'o1.count() should be unchanged.');
 	});
 
-	test('.factory() target option', function() {
+	test('.factory({ignoreOptions: true})', function() {
 
-		var props = {
-				attrs: {
-					foo: true
-				}
-			},
-			factory = o.factory({
-				defaultProperties: props,
-				target: props.attrs
+		var factory = o.factory({
+				defaultProperties: { foo: 'bar' },
+				ignoreOptions: true
 			}),
-			instance = factory({ bar: true });
+			instance = factory({ foo: 'baz' });
 
-		ok(instance.attrs.bar,
-			'Sometimes you don\'t want to extend the instance object' +
-			'with the object passed into the instance factory. The ' +
-			'target option should let you set a custom target for the ' +
-			'extend operation.');
+		equal(instance.foo, 'bar',
+			'The o.factory({ ignoreOptions: true}) setting should allow ' +
+			'the instance factory to skip adding options to the created' +
+			'object.');
 	});
 
 }(odotjs));

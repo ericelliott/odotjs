@@ -160,22 +160,23 @@
     /**
      * Returns an object factory that stamps out objects
      * using a specified shared prototype and init.
-     *
-     * @param {object} sharedProperties Prototype
-     * @param {object} defaultProperties Instance safe
-     * @param {function} initFunction Init and privacy
-     *
-     * @return {function} A new object factory.
+     * 
+     * @param  {Object} sharedProperties  prototype
+     * @param  {Object} defaultProperties instance properties
+     * @param  {Function} instanceInit    instance level init
+     * @param  {Function} factoryInit     factory level init
+     * @param  {Boolean} ignoreOptions    ignore instance options?        
+     * @return {Function}                 factory function
      */
     factory: function factory(sharedProperties, defaultProperties,
-        instanceInit, factoryInit, target) {
+        instanceInit, factoryInit, ignoreOptions) {
       var optionNames = 'sharedProperties, defaultProperties,' +
-          ' instanceInit, factoryInit, target',
+          ' instanceInit, factoryInit, ignoreOptions',
         config,
         initObj = o();
 
       config = mapOptions(optionNames, sharedProperties,
-        defaultProperties, instanceInit, factoryInit, target);
+        defaultProperties, instanceInit, factoryInit, ignoreOptions);
       config.instanceInit = config.instanceInit || defaultInit;
 
       // factoryInit can be used to initialize shared private state.
@@ -187,12 +188,11 @@
         var defaultProperties = config.defaultProperties || {},
           sharedProperties = extend(config.sharedProperties ||
             {}, initObj),
-          instance = defaultProperties,
-          target = (config.target) ? config.target : instance,
+          instance = (config.ignoreOptions) ? defaultProperties :
+            extend({}, defaultProperties, options),
           obj, 
           init;
 
-        extend(target, options);
         obj = extend(o(sharedProperties, instance));
         init = config.instanceInit;
 
