@@ -79,6 +79,11 @@
 
       return proto;
     },
+
+    copy = function copy(input) {
+      return JSON.parse(JSON.stringify(input));
+    },
+
     o,
     api,
     defaultInit = function init() {
@@ -185,10 +190,11 @@
       }
 
       return bless(function (options) {
-        var defaultProperties = config.defaultProperties || {},
+        var defaultProperties = copy(config.defaultProperties || {},
           sharedProperties = extend(config.sharedProperties ||
-            {}, initObj),
-          instance = (config.ignoreOptions) ? defaultProperties :
+            {}, initObj)),
+          instance = (config.ignoreOptions) ?
+            defaultProperties :
             extend({}, defaultProperties, options),
           obj, 
           init;
