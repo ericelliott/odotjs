@@ -1,8 +1,10 @@
-/*global module, test, ok, equal, odotjs, deepEqual */
+/*global module, test, ok, equal, odotjs, deepEqual,
+stop, setTimeout, start */
 (function (o) {
   'use strict';
+
   // This test is only here because the tests are failing
-  // in Travis and I'm trying to diagnose the problem.
+  // in Travis and this seems to fix the problem.
   test('Timeout hack', function () {
     stop();
     setTimeout(function () {
