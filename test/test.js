@@ -1,6 +1,16 @@
 /*global module, test, ok, equal, odotjs, deepEqual */
 (function (o) {
   'use strict';
+  // This test is only here because the tests are failing
+  // in Travis and I'm trying to diagnose the problem.
+  test('Timeout hack', function () {
+    stop();
+    setTimeout(function () {
+      ok(true, 'Timeout reached.');
+      start();
+    }, 3000);
+  });
+
   var testObj,
     testObj2,
     testFactory,
