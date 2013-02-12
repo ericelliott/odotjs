@@ -1,5 +1,11 @@
-odotjs [![Build Status](https://secure.travis-ci.org/dilvie/odotjs.png)](http://travis-ci.org/dilvie/odotjs)
-======
+# Deprecated -- Use [Stampit](https://github.com/dilvie/stampit) instead
+
+Learn about the three types of prototypal inheritance, and how Stampit uses them to create objects from reusable, composable behaviors:
+
+[Fluent JavaScript - Three Different Kinds of Prototypal OO](http://ericleads.com/2013/02/fluent-javascript-three-different-kinds-of-prototypal-oo/)
+
+
+## odotjs [![Build Status](https://secure.travis-ci.org/dilvie/odotjs.png)](http://travis-ci.org/dilvie/odotjs)
 
 A prototypal object library that makes it easy to create objects or factories with a predefined prototype, instance members, and even data privacy and initialization. A flexible alternative to class-based systems that exposes, rather than obscures JavaScript's prototypal nature.
 
